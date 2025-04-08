@@ -81,3 +81,22 @@ digitDozens :: Integer -> Integer
 digitDozens x
     | div x 10 == 0 = x
     | otherwise = digitDozens(div x 10) 
+
+
+-- Ex 3
+-- This is the same as the ecuation the exercise give, because k = -a/b
+areRelated :: Integer -> Integer -> Bool
+areRelated a b = mod a b == 0
+
+-- Ex 4
+internalProduct :: (Integer, Integer) -> (Integer, Integer) -> Integer
+internalProduct (x1, y1) (x2, y2) = x1 * x2 + y1 * y2
+
+isTupleMinor :: (Integer, Integer) -> (Integer, Integer) -> Bool
+isTupleMinor (x1, y1) (x2, y2) = x1 < x2 && y1 < y2
+
+distance :: (Integer, Integer) -> (Integer, Integer) -> Float
+distance (x1, y1) (x2, y2) = sqrt ((x2 - x1)^2 + (y2 - y1)^2)
+
+sumTriad :: (Integer, Integer, Integer) -> Integer
+sumTriad x y z = x + y + z
