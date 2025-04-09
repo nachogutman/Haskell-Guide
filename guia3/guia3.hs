@@ -107,8 +107,8 @@ sumJustMultiples (x, y, z) n
     | isMultipleOf z n = z
     | otherwise = 0   
 
-posFirstOdd :: (Integer, Integer, Integer) -> Integer
-posFirstOdd (x, y, z)
+posFirstEven :: (Integer, Integer, Integer) -> Integer
+posFirstEven (x, y, z)
     | isMultipleOf x 2 = 1
     | isMultipleOf y 2 = 2
     | isMultipleOf z 2 = 3
