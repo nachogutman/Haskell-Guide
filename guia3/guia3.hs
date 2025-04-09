@@ -25,8 +25,8 @@ absolute x
 
 maxAbsolute :: Integer -> Integer -> Integer
 maxAbsolute x y
-    | absolute(x) >= absolute(y) = absolute(x)
-    | otherwise = absolute(y)
+    | absolute x >= absolute y = absolute x
+    | otherwise = absolute y
 
 max3 :: Integer -> Integer -> Integer -> Integer
 max3 x y z
@@ -83,14 +83,14 @@ areRelated :: Integer -> Integer -> Bool
 areRelated a b = mod a b == 0
 
 -- Ex 4
-type Point2d = (Float, Float)
-internalProduct :: Point2d -> Point2d -> Float
+type Point2D = (Float, Float)
+internalProduct :: Point2D -> Point2D -> Float
 internalProduct (x1, y1) (x2, y2) = x1 * x2 + y1 * y2
 
-isTupleMinor :: Point2d -> Point2d -> Bool
+isTupleMinor :: Point2D -> Point2D -> Bool
 isTupleMinor (x1, y1) (x2, y2) = x1 < x2 && y1 < y2
 
-distance :: Point2d -> Point2d -> Float
+distance :: Point2D -> Point2D -> Float
 distance (x1, y1) (x2, y2) = sqrt ((x2 - x1)^2 + (y2 - y1)^2)
 
 sumTriad :: (Integer, Integer, Integer) -> Integer
@@ -119,3 +119,48 @@ createTuple a b = (a, b)
 
 invert :: (a, b) -> (b, a)
 invert (a, b) = (b, a)
+
+-- Ex 5
+f5 :: Integer -> Integer
+f5 n
+    | n <= 7 = n*n
+    | otherwise = 2*n - 1
+
+g5 :: Integer -> Integer
+g5 n
+    | isMultipleOf n 2 = div n 2
+    | otherwise = 3*n + 1
+
+allMinor :: (Integer, Integer, Integer) -> Bool
+allMinor (x, y, z) = (f5 x > g5 x) && (f5 y > g5 y) && (f5 z > g5 z)
+
+-- Ex 6
+type Year = Integer
+type IsLeap = Bool
+
+leap :: Year -> IsLeap
+leap x 
+    | not (isMultipleOf x 4) = False
+    | isMultipleOf x 100 && not (isMultipleOf x 400) = False
+    | otherwise = True
+
+-- Ex 7
+floatAbsolute :: Float -> Float
+floatAbsolute x
+    | x >= 0 = x
+    | otherwise = -x
+
+
+type Point3D = (Float, Float, Float)
+distanceManhattan :: Point3D -> Point3D -> Float
+distanceManhattan (x1, y1, z1) (x2, y2, z2) = floatAbsolute (x1 - x2) + floatAbsolute (y1 - y2) + floatAbsolute (z1 - z2)
+
+-- Ex 8
+sumLastTwoDigits :: Integer -> Integer
+sumLastTwoDigits x = mod (absolute x) 10 + mod (absolute (div x 10)) 10
+
+compare8 :: Integer -> Integer -> Integer
+compare8 a b
+    | sumLastTwoDigits a < sumLastTwoDigits b = 1
+    | sumLastTwoDigits a > sumLastTwoDigits b = -1
+    | sumLastTwoDigits a == sumLastTwoDigits b = 0
