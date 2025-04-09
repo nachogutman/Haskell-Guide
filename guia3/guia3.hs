@@ -35,9 +35,7 @@ max3 x y z
     | z >= x && z >= y = z
 
 anyoneIsZero :: Float -> Float -> Bool
-anyoneIsZero x y
-    | x == 0 || y == 0 = True
-    | otherwise = False
+anyoneIsZero x y = x == 0 || y == 0
 
 anyoneIsZeroPM :: Float -> Float -> Bool
 anyoneIsZeroPM 0 _ = True
@@ -45,9 +43,7 @@ anyoneIsZeroPM _ 0 = True
 anyoneIsZeroPM _ _ = False
 
 bothAreZero :: Float -> Float -> Bool
-bothAreZero x y
-    | x == 0 && y == 0 = True
-    | otherwise = False
+bothAreZero x y = x == 0 && y == 0
 
 bothAreZeroPM :: Float -> Float -> Bool
 bothAreZeroPM 0 0 = True
@@ -70,9 +66,7 @@ sumDifferent x y z
     | otherwise = x + y + z 
 
 isMultipleOf :: Integer -> Integer -> Bool
-isMultipleOf x y
-    | mod x y == 0 = True
-    | otherwise = False
+isMultipleOf x y = mod x y == 0
 
 digitUnits :: Integer -> Integer
 digitUnits x = mod x 10
@@ -89,14 +83,39 @@ areRelated :: Integer -> Integer -> Bool
 areRelated a b = mod a b == 0
 
 -- Ex 4
-internalProduct :: (Integer, Integer) -> (Integer, Integer) -> Integer
+type Point2d = (Float, Float)
+internalProduct :: Point2d -> Point2d -> Float
 internalProduct (x1, y1) (x2, y2) = x1 * x2 + y1 * y2
 
-isTupleMinor :: (Integer, Integer) -> (Integer, Integer) -> Bool
+isTupleMinor :: Point2d -> Point2d -> Bool
 isTupleMinor (x1, y1) (x2, y2) = x1 < x2 && y1 < y2
 
-distance :: (Integer, Integer) -> (Integer, Integer) -> Float
+distance :: Point2d -> Point2d -> Float
 distance (x1, y1) (x2, y2) = sqrt ((x2 - x1)^2 + (y2 - y1)^2)
 
 sumTriad :: (Integer, Integer, Integer) -> Integer
-sumTriad x y z = x + y + z
+sumTriad (x, y, z) = x + y + z
+
+sumJustMultiples :: (Integer, Integer, Integer) -> Integer -> Integer
+sumJustMultiples (x, y, z) n
+    | isMultipleOf x n && isMultipleOf y n && isMultipleOf z n = x + y + z
+    | isMultipleOf x n && isMultipleOf y n = x + y
+    | isMultipleOf x n && isMultipleOf z n = x + z
+    | isMultipleOf y n && isMultipleOf z n = y + z
+    | isMultipleOf x n = x
+    | isMultipleOf y n = y
+    | isMultipleOf z n = z
+    | otherwise = 0   
+
+posFirstOdd :: (Integer, Integer, Integer) -> Integer
+posFirstOdd (x, y, z)
+    | isMultipleOf x 2 = 1
+    | isMultipleOf y 2 = 2
+    | isMultipleOf z 2 = 3
+    | otherwise = 4
+
+createTuple :: a -> b -> (a, b)
+createTuple a b = (a, b)
+
+invert :: (a, b) -> (b, a)
+invert (a, b) = (b, a)
