@@ -25,3 +25,9 @@ sumOddsWeird n = n*n
 sumOdds :: Integer -> Integer
 sumOdds 1 = 1
 sumOdds n = 2*n - 1 + sumOdds(n - 1)
+
+-- Ex 5 
+halfFact :: Integer -> Integer
+halfFact 0 = 1
+halfFact 1 = 1
+halfFact n = halfFact(n-2) * n
