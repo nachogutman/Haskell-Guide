@@ -37,17 +37,8 @@ max3 x y z
 anyoneIsZero :: Float -> Float -> Bool
 anyoneIsZero x y = x == 0 || y == 0
 
-anyoneIsZeroPM :: Float -> Float -> Bool
-anyoneIsZeroPM 0 _ = True
-anyoneIsZeroPM _ 0 = True
-anyoneIsZeroPM _ _ = False
-
 bothAreZero :: Float -> Float -> Bool
 bothAreZero x y = x == 0 && y == 0
-
-bothAreZeroPM :: Float -> Float -> Bool
-bothAreZeroPM 0 0 = True
-bothAreZeroPM _ _ = False
 
 -- (−∞, 3],(3, 7] y (7, ∞)
 inSameInterval :: Float -> Float -> Bool 
