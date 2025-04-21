@@ -68,3 +68,48 @@ f1 n = 2^n + f1 (n - 1)
 f2 :: Integer -> Float -> Float
 f2 1 _ = 1
 f2 n q = q^n + f2 (n - 1) q
+
+f3 :: Integer -> Float -> Float
+f3 0 _ = 0
+f3 n q = q^(2*n) + q^(2*n - 1) + f3 (n-1) q
+
+-- f4
+
+-- Ex 11
+factorial :: Integer -> Integer
+factorial 1 = 1
+factorial n = n * factorial(n-1)
+
+eAprox :: Integer -> Float
+eAprox 0 = 1.0
+eAprox n = 1.0 / (fromIntegral (factorial n)) + eAprox (n-1)
+
+e :: Float
+e = eAprox 10
+
+-- Ex 12
+sqrtFrom2 :: Integer -> Float
+sqrtFrom2 1 = 2.0
+sqrtFrom2 n = 2.0 + (1.0 / sqrtFrom2 (n-1))
+
+sqrtFrom2Aprox :: Integer -> Float
+sqrtFrom2Aprox n = sqrtFrom2 (n) - 1
+
+-- Ex 13
+ex13 :: Integer -> Integer -> Integer
+ex13 1 q = ex13aux 1 q
+ex13 n q = ex13aux n q + ex13 (n-1) q
+
+ex13aux :: Integer -> Integer -> Integer
+ex13aux n 1 = n
+ex13aux n q = n^q + ex13aux n (q-1)
+
+{--
+
+|||||   ||||||  ||      ||||||
+||  || ||    || ||     ||    ||
+|||||  ||    || ||     ||    ||
+||     ||    || ||     ||    ||
+||      ||||||  ||||||  ||||||
+                            
+                            --}
