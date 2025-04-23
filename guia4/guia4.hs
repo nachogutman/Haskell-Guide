@@ -97,13 +97,63 @@ sqrtFrom2Aprox n = sqrtFrom2 (n) - 1
 
 -- Ex 13
 ex13 :: Integer -> Integer -> Integer
-ex13 1 q = ex13aux 1 q
-ex13 n q = ex13aux n q + ex13 (n-1) q
+ex13 1 q = sumPowerAux 1 q
+ex13 n q = sumPowerAux n q + ex13 (n-1) q
 
-ex13aux :: Integer -> Integer -> Integer
-ex13aux n 1 = n
-ex13aux n q = n^q + ex13aux n (q-1)
+-- Makes one number to the power of the sum of the other
+sumPowerAux :: Integer -> Integer -> Integer
+sumPowerAux n 1 = n
+sumPowerAux n q = n^q + sumPowerAux n (q-1)
 
+-- Ex 14
+sumPowers :: Integer -> Integer -> Integer -> Integer
+sumPowers q 1 m = q * sumPowerAux q m
+sumPowers q n m = (q^n) * sumPowerAux q m + sumPowers q (n-1) m
+
+-- Ex 15
+sumRationals :: Integer -> Integer -> Float
+sumRationals 1 m = sumDivisors 1 m
+sumRationals n m = sumDivisors n m + sumRationals (n-1) m
+
+-- sums number n divided by each number between m and 0
+sumDivisors :: Integer -> Integer -> Float
+sumDivisors n 1 = fromIntegral n
+sumDivisors n m = (fromIntegral n / fromIntegral m) + sumDivisors n (m-1)
+
+-- Ex 16
+minorDivisor :: Integer -> Integer
+minorDivisor 1 = 1
+minorDivisor n = minorDivisorFrom n 2
+
+minorDivisorFrom :: Integer -> Integer -> Integer
+minorDivisorFrom n m 
+    | mod n m == 0 = m
+    | otherwise = minorDivisorFrom n (m+1)
+
+isPrime :: Integer -> Bool
+isPrime 1 = False
+isPrime n = minorDivisorFrom n 2 == n
+
+areCoprimes :: Integer -> Integer -> Bool
+areCoprimes n m 
+    | minorCommonDivisor n m 2 == 0 = True
+    | otherwise = False
+
+minorCommonDivisor :: Integer -> Integer -> Integer -> Integer
+minorCommonDivisor n m i
+    | mod n i == 0 && mod m i == 0 = i
+    | (n == i) || (m == i) = 0
+    | otherwise = minorCommonDivisor n m (i+1) 
+
+xPrime :: Integer -> Integer 
+xPrime = findPrime n 2 0
+
+findPrime :: Integer -> Integer -> Integer -> Integer
+findPrime n candidate cont = n == cont = candidate - 1
+findPrime n candidate cont
+    | isPrime candidate = findPrime n (candidate + 1) (cont + 1)
+    | otherwise = findPrime n (candidate + 1) cont
+    
 {--
 
 |||||   ||||||  ||      ||||||
