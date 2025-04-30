@@ -102,7 +102,6 @@ multipleOfN n (x:xs)
     | mod x n == 0 = x : multipleOfN n xs
     | otherwise = multipleOfN n xs
 
-
 order :: [Integer] -> [Integer]
 order [] = []
 order l = minOfList l : order (takeOut (minOfList l) l)
@@ -112,3 +111,58 @@ minOfList [x] = x
 minOfList (x:y:xs) 
     | x < y = minOfList (x : xs)
     | otherwise = minOfList (y : xs)
+
+-- Ex 4
+type Texto = [Char]
+
+takeOutDuplicateSpaces :: Texto -> Texto
+takeOutDuplicateSpaces [] = []
+takeOutDuplicateSpaces (x:xs)
+    | x == ' ' && head xs == ' ' = takeOutDuplicateSpaces xs
+    | otherwise = x : takeOutDuplicateSpaces xs
+
+contWords :: Texto -> Integer
+contWords [] = 0
+contWords l = contSpaces(takeOutExtraSpaces l) + 1
+
+-- AUXILIAR FOR CONTWORDS
+takeOutExtraSpaces :: Texto -> Texto
+takeOutExtraSpaces l = takeOutFirstSpace (takeOutLastSpace (takeOutDuplicateSpaces l))
+
+takeOutFirstSpace :: Texto -> Texto
+takeOutFirstSpace l
+    | head l == ' ' = tail l
+    | otherwise = l
+
+takeOutLastSpace :: Texto -> Texto
+takeOutLastSpace l
+    | lastInList l == ' ' = start l
+    | otherwise = l
+
+contSpaces :: Texto -> Integer
+contSpaces [] = 0
+contSpaces (x:xs)
+    | x == ' ' = 1 + contSpaces xs
+    | otherwise = contSpaces xs
+--
+-- words :: Texto -> [Texto]
+
+-- larger word
+
+flatten :: [Texto] -> Texto
+flatten [x] = x
+flatten (x:xs) =  x ++ flatten xs
+
+flattenWithSpaces :: [Texto] -> Texto
+flattenWithSpaces [x] = x
+flattenWithSpaces (x:xs) =  x ++ [' '] ++ flattenWithSpaces xs
+
+flattenWithNSpaces :: [Texto] -> Integer -> Texto
+flattenWithNSpaces [x] _ = x
+flattenWithNSpaces (x:xs) n =  x ++ generateNSpaces n ++ flattenWithNSpaces xs n
+
+--
+generateNSpaces :: Integer -> Texto
+generateNSpaces 0 = []
+generateNSpaces n = [' '] ++ generateNSpaces (n-1)
+--
