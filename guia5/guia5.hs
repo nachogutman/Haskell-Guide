@@ -66,7 +66,7 @@ palindrome  :: (Eq t) => [t] -> Bool
 palindrome l = l == reverseOfList l
 
 -- Ex 3
-summation :: [Integer] -> Integer
+summation :: (Num t) => [t] -> t
 summation [] = 0
 summation (x:xs) = x + summation xs
 
@@ -116,7 +116,7 @@ minOfList (x:y:xs)
 type Texto = [Char]
 
 takeOutDuplicateSpaces :: Texto -> Texto
-takeOutDuplicateSpaces [] = []
+takeOutDuplicateSpaces [x] = [x]
 takeOutDuplicateSpaces (x:xs)
     | x == ' ' && head xs == ' ' = takeOutDuplicateSpaces xs
     | otherwise = x : takeOutDuplicateSpaces xs
@@ -145,9 +145,38 @@ contSpaces (x:xs)
     | x == ' ' = 1 + contSpaces xs
     | otherwise = contSpaces xs
 --
--- words :: Texto -> [Texto]
 
--- larger word
+wordsToList :: Texto -> [Texto]
+wordsToList [] = []
+wordsToList t
+    | contSpaces t > 0 = firstWord (takeOutExtraSpaces t) : wordsToList (takeOutFirstWord (takeOutExtraSpaces t))
+    | otherwise = [t]
+
+-- AUXILIAR FOR WORDSTOLIST
+firstWord :: Texto -> Texto
+firstWord [] = []
+firstWord (x:xs)
+    | x == ' ' = []
+    | otherwise = x : firstWord xs
+
+takeOutFirstWord :: Texto -> Texto
+takeOutFirstWord [] = []
+takeOutFirstWord (x:xs)
+    | x /= ' ' = takeOutFirstWord xs
+    | otherwise = xs
+--
+
+largerWord :: Texto -> Texto
+largerWord l
+    | contSpaces (takeOutExtraSpaces l) == 0 = l
+    | contLetters (firstWord (takeOutExtraSpaces l)) >= contLetters(firstWord (takeOutFirstWord (takeOutExtraSpaces l))) = takeOutExtraSpaces ( largerWord (firstWord (takeOutExtraSpaces l) ++ [' '] ++  (takeOutFirstWord ((takeOutFirstWord (takeOutExtraSpaces l))))))
+    | otherwise = takeOutExtraSpaces (largerWord (firstWord ((takeOutFirstWord (takeOutExtraSpaces l))) ++ [' '] ++  (takeOutFirstWord ((takeOutFirstWord (takeOutExtraSpaces l))))))
+
+-- AUXILIAR FOR LARGER WORLD
+contLetters :: Texto -> Int
+contLetters [] = 0
+contLetters (x:xs) = 1 + contLetters xs
+--
 
 flatten :: [Texto] -> Texto
 flatten [x] = x
@@ -166,3 +195,17 @@ generateNSpaces :: Integer -> Texto
 generateNSpaces 0 = []
 generateNSpaces n = [' '] ++ generateNSpaces (n-1)
 --
+
+-- Ex 5
+acumulatedSum :: (Num t) => [t] -> [t]
+acumulatedSum [x] = [x]
+acumulatedSum (x:xs) =  acumulatedSum (takeOutLastInList (x:xs)) ++ [sumUntilX (long (x:xs)) (x:xs)]
+
+takeOutLastInList :: (Num t) => [t] -> [t]
+takeOutLastInList [x] = []
+takeOutLastInList (x:xs) = x : takeOutLastInList xs
+
+sumUntilX :: (Num t) => Integer -> [t] -> t
+sumUntilX x l
+    | long l == x = summation l
+    | otherwise = sumUntilX x (takeOutLastInList l)
